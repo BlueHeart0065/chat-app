@@ -36,59 +36,74 @@ app.get('/' , (req , res) => {
     res.render('login' , {errors : {} , email : '' , password : ''});
 })
 
-app.post('/' , (req , res) => {
+app.post('/' , async(req , res) => {
     const {email , password} = req.body;
     const errors = {};
-    flag = true;
 
-    if(email == ''){
-        errors.emailisnull = true;
+    if(email === ''){
+        const errors = {
+            emailisnull : true,
+        }
+        return res.render('login' , {errors , email , password});
+    }
+
+    if(password === ''){
+        const errors = {
+            passisnull : true,
+        }
+        return res.render('login' , {errors , email , password});
+    }
+
+    if(password == ''){
+        errors.passisnull = true;
         flag = false;
     }
 
-    if(flag == true){
-        db.query('SELECT * FROM users WHERE email = ?' , [email] , async (err , results) => {
-            if(err){
-                console.log("email finding error" , err);
+    db.query('SELECT * FROM users WHERE email = ?' , [email] , async(err , results) => {
+        if(err){
+            console.log('error in fetching data form database' , err);
+        }
+        else{
+            if(!(results.length > 0)){
+                const errors = {
+                    invalidemail : true
+                };
+                console.log('reached');
+                return res.render('login' , {errors , email , password});
             }
             else{
-                if(results.length == 0){
-                    errors.invalidemail = true;
-                    flag = false;
-                    return;
-                }
+                const user = results[0];
+                const match = await bcrypt.compare(password , user.password);
+        
+                if(!match){
 
-                if(password == ''){
-                    errors.passisnull = true;
-                    flag = false;
-                }
-
-                if(flag == true){
-                    const users = results[0];
-                    const match = await bcrypt.compare(password,users.password);
-                    if(!match){
-                        errors.invalidpassword = true;
-                        flag = false;
+                    const errors = {
+                        invalidpass: true
                     }
+                    return res.render('login' , {errors , email , password});
+        
                 }
-
+        
+                return res.redirect('/home');
             }
-        });
-    }
+        }
+    });
 
-    if(Object.keys(errors).length > 0){
-        res.render('login' , {errors , email , password});
-    }
+    
+    // try{
 
-    if(flag == true){
-        return res.redirect('/home');
-    }
 
-})
+            
+    // }
+    // catch(err){
+    //     console.log('error in fetching data from database' , err);
+    // }
+
+});
 
 app.get('/signup' , (req , res) =>{
     res.render('signup' , {errors : {} , firstName : '' , lastName : '' , email : '' ,password : '' , confirmPassword: ''});
-})
+});
 
 app.post('/signup' , async (req , res) => {
     const {firstName , lastName , email , password , confirmPassword} = req.body;

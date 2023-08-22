@@ -42,7 +42,7 @@ input{
 button{
     border: none;
     width: 25vw;
-    margin: 1vw 2vw 2vw 2vw;
+    margin: 2vw 2vw 2vw 2vw;
     cursor: pointer;
     height: 2.5vw;
     border-radius: 10px;
@@ -82,4 +82,17 @@ a{
     margin-left: 2vw;
     margin-top: 0vw;
     margin-bottom: 0vw;
+}
+
+#eye{
+    margin: -4.75vw 0vw 0vw 24vw;
+    width: fit-content;
+    height: fit-content;
+
+}
+
+#eye svg{
+    width: 1.5vw;
+    height: 1.5vw;
+    cursor: pointer;
 }
