@@ -12,13 +12,14 @@ body{
 .sidebar{
     height: 100%;
     width: 20vw;
-    border-right: 3px solid rgb(213, 227, 231);
+    border-top: 4px solid #f6f8fc;
+    border-right: 4px solid #f6f8fc;
     flex-direction: column;
 }
 
 .header{
     flex-direction: row;
-    border-bottom: 3px solid rgb(213, 227, 231);
+    border-bottom: 4px solid #f6f8fc;
 }
 
 .header p{
@@ -36,15 +37,127 @@ body{
 
 .options{
     cursor: pointer;
+    border-radius: 20px;
+    margin-top: 1vw;
+    width: 18vw;
+    margin-left: 1vw;
+    transition: all 0.3s;
 }
 
 .options svg{
-    width: 2vw;
-    height: 2vw;
-    margin: 2vw 0vw 1vw 2.5vw;
+    width: 1.8vw;
+    height: 1.8vw;
+    margin: 1vw 0vw 1vw 2vw;
+    transition: all 0.3s;
+
 }
 
 .options p{
-    font-size: 1.5vw;
-    margin: 2vw 0vw 0vw 2vw;
+    font-size: 1.3vw;
+    margin: 1.2vw 0vw 0vw 3vw;
+    transition: all 0.3s;
+
+}
+
+.options:hover{
+    background-color: rgb(232, 240, 245);
+}
+
+.options:hover svg{
+    transform: scale(1.2,1.2);
+}
+
+.options:hover p{
+    transform: scale(1.1,1.1);
+}
+
+.profile{
+    position: relative;
+    margin: 9vw 0vw 0vw 0vw;
+    cursor: pointer;
+}
+
+.profile:hover{
+    background-color: rgb(239, 239, 239);
+}
+
+.username{
+    font-size: 1.2vw;
+    font-weight: 300;
+    margin: 1vw 0vw 0vw 1vw;
+    width: fit-content;
+}
+
+.email{
+    margin: 0vw 0vw 0vw 1vw;
+    color: rgb(152, 152, 152);
+    font-size: 1vw;
+}
+
+.profile img{
+    width: 3vw;
+    height: 3vw;
+    border-radius: 50px;
+    margin: 1vw 0vw 1vw 1.5vw;
+}
+
+.messages{
+    position: absolute;
+    right: 0vw;
+    flex-direction: column;
+    border-left: 4px solid #f6f8fc;
+    height: 100%;
+    width: 25vw;
+}
+
+.messageBox{
+    margin: 0vw 0vw 0vw 0vw;
+}
+
+.messageBox:hover{
+    background-color: rgb(234, 249, 255);
+}
+
+.messageBox img{
+    width: 3vw;
+    height: 3vw;
+    border-radius: 50px;
+    margin: 1vw 0vw 1vw 2vw;
+}
+
+.friendName{
+    flex-direction: column;
+    margin: 0vw 0vw 1vw 1vw;
+}
+
+.friendName p{
+    margin: 1vw 0vw 0vw 0vw;
+}
+
+.friendName .status{
+    color: rgb(38, 219, 120);
+    font-style: italic;
+    margin: 0.3vw 0vw 0vw 0vw;
+}
+
+.time{
+    flex-direction: column;
+    margin: 1vw 0vw 0vw 4vw;
+}
+
+.time p{
+    margin: 0vw 0vw 0vw 0vw;
+    color: rgb(140, 140, 140);
+    font-size: 1vw;
+}
+
+.time .unread p{
+    background-color: rgb(255, 88, 88);
+    color: white;
+    border-radius: 50px;
+    width: fit-content;
+    font-size: 0.7vw;
+    padding: 0.4vw 0.6vw 0.4vw 0.6vw;
+    margin-top: 0.5vw;
+    margin-left: 2vw;
 }
