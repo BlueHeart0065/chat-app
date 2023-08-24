@@ -28,6 +28,7 @@ form{
 
 label{
     margin: 1vw 0vw 0.5vw 2vw;
+    font-size: 1vw;
 }
 
 input{
@@ -87,4 +88,17 @@ a{
     margin-left: 2vw;
     margin-top: 0vw;
     margin-bottom: 0vw;
+}
+
+#eye{
+    margin: -4.75vw 0vw 0vw 24vw;
+    width: fit-content;
+    height: fit-content;
+
+}
+
+#eye svg{
+    width: 1.5vw;
+    height: 1.5vw;
+    cursor: pointer;
 }

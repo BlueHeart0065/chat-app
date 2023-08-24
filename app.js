@@ -29,7 +29,7 @@ db.connect( err => {
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join('public')));
+app.use(express.static(path.join(__dirname , 'public')));
 
 
 app.get('/' , (req , res) => {
@@ -89,16 +89,6 @@ app.post('/' , async(req , res) => {
         }
     });
 
-    
-    // try{
-
-
-            
-    // }
-    // catch(err){
-    //     console.log('error in fetching data from database' , err);
-    // }
-
 });
 
 app.get('/signup' , (req , res) =>{
@@ -113,59 +103,87 @@ app.post('/signup' , async (req , res) => {
     flag = true;
 
     if(firstName == ''){
-        errors.fnameisnull = true;
-        flag = false;
+        const errors = {
+            fnameisnull : true
+        }
+        return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
+
     }
 
     if(lastName == ''){
-        errors.lnameisnull = true;
-        flag = false;
+        const errors = {
+            lnameisnull : true
+        }
+        return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
+
     }
 
     if(email == ''){
-        errors.emailisnull = true;
-        flag = false;
+        const errors = {
+            emailisnull : true
+        }
+        return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
+
     }
 
     if(password == ''){
-        errors.passisnull = true;
-        flag = false;
+        const errors = {
+            passisnull : true
+        }
+        return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
+
     }
 
     if(password.length < 8 && flag == true){
-        errors.passwordLength = true;
-        flag = false;
+        const errors = {
+            passwordLength : true
+        }
+        return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
+
     }
 
     if(confirmPassword == ''){
-        errors.confirmisnull = true;
-        flag =false;
+        const errors = {
+            confirmisnull : true
+        }
+        return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
+
     }
 
-    if(confirmPassword != password && flag == true){
-        errors.notpasswordmatch = true;
-        flag = false;
+    if(confirmPassword != password){
+        const errors = {
+            notpasswordmatch : true
+        }
+        return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
+
     }
 
-    if(Object.keys(errors).length > 0){
-       return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
-    }
+    db.query('SELECT * FROM users WHERE email = ?' , [email] , async (err , reslt) => {
+        if(err){
+            console.log('error in fetching data' , err);
+        }
+        else{
+            if(reslt.length > 0){
+                const  errors = {
+                    emailexists : true
+                };
+                return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
 
-
-
-    if(flag == true){
-
-        db.query('INSERT INTO users (username , email , password) VALUES (? ,?, ?)' , [firstName+" "+lastName , email , hashPassword] , async (err , results) => {
-            if(err){
-                console.log(' Data insertion error' , err);
             }
-            else{
-    
-                console.log('Data inserted');
-                res.redirect('/');
-            }
-        });
-    }
+        }
+    });
+
+
+    db.query('INSERT INTO users (username , email , password) VALUES (? ,?, ?)' , [firstName+" "+lastName , email , hashPassword] , async (err , results) => {
+        if(err){
+            console.log(' Data insertion error' , err);
+        }
+        else{
+
+            console.log('Data inserted');
+            return res.redirect('/');
+        }
+    });
     
 })
 

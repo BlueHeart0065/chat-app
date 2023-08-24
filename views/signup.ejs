@@ -34,22 +34,42 @@
 
             <label for="email">Email address</label>
             <input type="email" name="email" value="<%= email %>">
-
+            
             <% if(errors.emailisnull) { %>
                 <p class="error">Please enter your email</p>
             <% } %>
 
+            <% if(errors.emailexists) { %>
+                <p class="error">Account already exists</p>
+            <% } %>
+
             <label for="password">Password</label>
-            <input type="password" name="password" value="<%= password %>">
+            <input type="password" name="password" value="<%= password %>" id="password">
+            
+            <span id="eye">
+                <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                            stroke="#949494" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path
+                            d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                            stroke="#949494" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </svg>
+            </span>
 
             <% if(errors.passwordLength) { %>
-                <p class="error">Password length should me 8 or more</p>
-            <% } %>
-            <% if(errors.passisnull) { %>
-                <p class="error">Please enter your password</p>
+                <p class="error" style="margin-top: -1vw;">Password length should me 8 or more</p>
             <% } %>
 
-            <label for="confirmPassword">Confirm password</label>
+            <% if(errors.passisnull) { %>
+                <p class="error" style="margin-top: -1vw;">Please enter your password</p>
+            <% } %>
+
+            <label for="confirmPassword" style="margin-top: 1vw;">Confirm password</label>
             <input type="password" name="confirmPassword" value="<%= confirmPassword %>">
 
             <% if(errors.confirmisnull) { %>
@@ -66,4 +86,27 @@
         </form>
     </div>
 </body>
+
+<script >
+    const pass = document.getElementById('password');
+    const eye = document.getElementById('eye');
+    const icon = document.getElementById('eyeIcon');
+    eye.onclick = () => {
+        if (pass.type === 'password') {
+            pass.type = 'text';      
+            icon.path.stroke  = 'black';
+        }
+        else {
+            pass.type = 'password';
+            icon.path.stroke  = '#949494';
+        }
+    }
+
+    var scrollPosition = window.scrollY;
+
+    window.onload = function() {
+        window.scrollTo( 0 , scrollPosition );
+    };
+
+</script>
 </html>
