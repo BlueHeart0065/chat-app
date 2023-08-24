@@ -84,8 +84,8 @@ app.post('/' , async(req , res) => {
                     return res.render('login' , {errors , email , password});
         
                 }
-        
-                return res.redirect('/home');
+                res.redirect('/home');
+                return;
             }
         }
     });
