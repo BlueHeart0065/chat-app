@@ -30,6 +30,7 @@ db.connect( err => {
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname , 'public')));
+app.use(express.static(path.join(__dirname)));
 
 
 app.get('/' , (req , res) => {
@@ -100,8 +101,6 @@ app.post('/signup' , async (req , res) => {
     const errors = {};
     const hashPassword = await bcrypt.hash(password , 10);
 
-    flag = true;
-
     if(firstName == ''){
         const errors = {
             fnameisnull : true
@@ -134,7 +133,7 @@ app.post('/signup' , async (req , res) => {
 
     }
 
-    if(password.length < 8 && flag == true){
+    if(password.length < 8){
         const errors = {
             passwordLength : true
         }
@@ -157,40 +156,35 @@ app.post('/signup' , async (req , res) => {
         return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
 
     }
-
-    db.query('SELECT * FROM users WHERE email = ?' , [email] , async (err , reslt) => {
-        if(err){
-            console.log('error in fetching data' , err);
-        }
-        else{
-            if(reslt.length > 0){
-                const  errors = {
-                    emailexists : true
-                };
-                return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
-
-            }
-        }
-    });
-
-
+        
     db.query('INSERT INTO users (username , email , password) VALUES (? ,?, ?)' , [firstName+" "+lastName , email , hashPassword] , async (err , results) => {
         if(err){
             console.log(' Data insertion error' , err);
+            const  errors = {
+                emailexists : true
+            };
+            return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
         }
         else{
-
             console.log('Data inserted');
-            return res.redirect('/');
+            return res.redirect('/success');
         }
     });
     
-})
+});
 
 app.get('/home' , (req , res) => {
     res.render('home');
+});
+
+app.get('/success' , (req , res) => {
+    res.render('success');
+})
+
+app.post('/success' , (req , res) => {
+    res.redirect('/');
 })
 
 app.listen(port, (req , res) => {
     console.log(`Server started on port ${port}`)
-})
+});

@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+.success{
+    display: flex;
+    flex-direction: column;
+    margin: 0vw auto 0vw auto;
+    position: absolute;
+    width: 40vw;
+    font-family: 'Outfit';
+    font-size: 1vw;
+    border-radius: 30px;
+    box-shadow: 0px 0px 20px #affbc6;
+    background-color: white;
+    left: 30vw;
+    top: 10vw;
+}
+
+button{
+    border: none;
+    width: 25vw;
+    margin: 2vw 2vw 2vw 2vw;
+    cursor: pointer;
+    height: 2.5vw;
+    border-radius: 10px;
+    color: white;
+    background-color: #ff3d3d;
+    font-weight: 700;
+    font-size: 1vw;
+}
+
+
+.success svg{
+    width: 7vw;
+    height: 7vw;
+    margin: 3vw auto 2vw auto;
+}
+
+.success p{
+    width: 20vw;
+    text-align: center;
+    margin: 1vw auto 1vw auto;   
+    font-size: 1.3vw;
+    color: rgb(134, 134, 134);
+    font-weight: 600;
+}
+
+.success .successMessage{
+    font-size: 1.6vw;
+    font-weight: 600;
+    margin: 0vw auto 0vw auto;
+    color: #23e15c;
+}
+
+.success button{
+    margin: 3vw auto 3vw auto;
+    background-color: #affdc6;
+    color: black;
+    font-family: Outfit;
+    font-weight: 400;
+}
