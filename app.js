@@ -10,6 +10,12 @@ const colors = require('colors');
 const app = express();
 const port = 3000;
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+  }))
+
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -41,6 +47,17 @@ app.get('/' , (req , res) => {
 app.post('/' , async(req , res) => {
     const {email , password} = req.body;
     const errors = {};
+    req.session.userEmail = email;
+    const userEmail = req.session.userEmail;
+
+    db.query('SELECT username FROM users WHERE email = ?', [userEmail] , (err , userNameResults) => {
+        if(err){
+            console.log('error in fetching username'.rainbow);
+        }
+        else{
+            req.session.userName = userNameResults[0].username;
+        }
+    });
 
     if(email === ''){
         const errors = {
@@ -99,6 +116,19 @@ app.get('/signup' , (req , res) =>{
 
 app.post('/signup' , async (req , res) => {
     const {firstName , lastName , email , password , confirmPassword} = req.body;
+    const tag = getTag();
+
+    db.query('SELECT * FROM users WHERE tag = ?', [tag] , (err , tagResults) => {
+        if(err){
+            console.log('error in fetching tag'.rainbow);
+        }
+        else{
+            if(tagResults.length > 0){
+                tag = getTag();
+            }
+        }
+    })
+
     const errors = {};
     const hashPassword = await bcrypt.hash(password , 10);
 
@@ -158,7 +188,7 @@ app.post('/signup' , async (req , res) => {
 
     }
         
-    db.query('INSERT INTO users (username , email , password) VALUES (? ,?, ?)' , [firstName+" "+lastName , email , hashPassword] , async (err , results) => {
+    db.query('INSERT INTO users (username , email , password) VALUES (? ,?, ? ,?)' , [firstName+" "+lastName , email , hashPassword , tag] , async (err , results) => {
         if(err){
             console.log(' Data insertion error'.rainbow, err);
             const  errors = {
@@ -174,8 +204,11 @@ app.post('/signup' , async (req , res) => {
     
 });
 
-app.get('/home' , (req , res) => {
-    res.render('home');
+app.get('/home' ,  async (req , res) => {
+
+    const userEmail = req.session.userEmail;
+    const userName = req.session.userName;
+    res.render('home' , {userName, userEmail});
 });
 
 app.get('/signup/success' , (req , res) => {
@@ -189,3 +222,8 @@ app.post('/success' , (req , res) => {
 app.listen(port, (req , res) => {
     console.log(`Server started on port ${port}`.rainbow)
 });
+
+function getTag(){
+    const tag = ((Math.floor(Math.random()*9) + 1)*1000) + ((Math.floor(Math.random()*9)+1)*100) + ((Math.floor(Math.random()*9)+1)*10) + (Math.floor(Math.random()*9)+1);
+    return tag;
+}
