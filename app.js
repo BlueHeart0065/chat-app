@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const colors = require('colors');
 
 const app = express();
-const port = 3001;
+const port = 3000;
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -168,7 +168,7 @@ app.post('/signup' , async (req , res) => {
         }
         else{
             console.log('Data inserted'.rainbow);
-            return res.redirect('/success');
+            return res.redirect('/signup/success');
         }
     });
     
@@ -178,7 +178,7 @@ app.get('/home' , (req , res) => {
     res.render('home');
 });
 
-app.get('/success' , (req , res) => {
+app.get('/signup/success' , (req , res) => {
     res.render('success');
 })
 
