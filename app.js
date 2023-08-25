@@ -5,9 +5,10 @@ const session = require('express-session');
 const path = require('path');
 const { log, error } = require('console');
 const bcrypt = require('bcrypt');
+const colors = require('colors');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -18,10 +19,10 @@ const db = mysql.createConnection({
 
 db.connect( err => {
     if(err){
-        console.log('Database connection failed' , err);
+        console.log('Database connection failed'.rainbow , err);
     }
     else{
-        console.log('Database connected');
+        console.log('Database connected'.rainbow);
     }
 })
 
@@ -62,14 +63,14 @@ app.post('/' , async(req , res) => {
 
     db.query('SELECT * FROM users WHERE email = ?' , [email] , async(err , results) => {
         if(err){
-            console.log('error in fetching data form database' , err);
+            console.log('error in fetching data form database'.rainbow, err);
         }
         else{
             if(!(results.length > 0)){
                 const errors = {
                     invalidemail : true
                 };
-                console.log('reached');
+                console.log('reached'.cyan);
                 return res.render('login' , {errors , email , password});
             }
             else{
@@ -159,14 +160,14 @@ app.post('/signup' , async (req , res) => {
         
     db.query('INSERT INTO users (username , email , password) VALUES (? ,?, ?)' , [firstName+" "+lastName , email , hashPassword] , async (err , results) => {
         if(err){
-            console.log(' Data insertion error' , err);
+            console.log(' Data insertion error'.rainbow, err);
             const  errors = {
                 emailexists : true
             };
             return res.render('signup' , {errors , email , firstName , password , confirmPassword , lastName});
         }
         else{
-            console.log('Data inserted');
+            console.log('Data inserted'.rainbow);
             return res.redirect('/success');
         }
     });
@@ -186,5 +187,5 @@ app.post('/success' , (req , res) => {
 })
 
 app.listen(port, (req , res) => {
-    console.log(`Server started on port ${port}`)
+    console.log(`Server started on port ${port}`.rainbow)
 });
