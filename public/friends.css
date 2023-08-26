@@ -35,10 +35,6 @@ body{
     margin: 2vw 0vw 2vw 2vw;
 }
 
-a{
-    text-decoration: none;
-    color: black;
-}
 .options{
     cursor: pointer;
     border-radius: 20px;
@@ -46,9 +42,7 @@ a{
     width: 18vw;
     margin-left: 1vw;
     transition: all 0.3s;
-    height: fit-content;
 }
-
 
 .options svg{
     width: 1.8vw;
