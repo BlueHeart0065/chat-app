@@ -77,6 +77,11 @@ a{
     transform: scale(1.1,1.1);
 }
 
+#messages{
+    background-color: rgb(254, 106, 80);
+    color: white;
+}
+
 .profile{
     position: relative;
     margin: 9vw 0vw 0vw 0vw;
