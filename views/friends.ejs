@@ -154,12 +154,21 @@
             <% if(friends.found) { %>
                 <div class="searchResult">
                     <img src="../assets/tim-bogdanov-4uojMEdcwI8-unsplash.jpg" alt="">
-                    <p>Aditya Batgeri</p>
+                    <p> <%= friendName %></p>
                     <div class="add">
                         <p>Send request</p>
                     </div>
                 </div>
             <% } %>
+
+            <% if(friends.notfound) { %>
+                <p style="color: rgb(137, 137, 137); font-style: italic; margin-left : 1vw; font-size:1vw; font-weight: 300; color:rgb(102, 189, 255)">Couldn't find the user with the tag #<%= search %> :(</p>
+            <% } %>
+
+            <div style="width: 50vw; height: 0.1vw ; background-color: rgb(192, 203, 213); margin-top: 2vw; margin-left: 1vw;">
+            </div>
+
+            <p style="font-size: 1.2vw; margin: 1vw 0vw 0vw 2vw; color: rgb(137, 137, 137)">Requests</p>
         </div>
     </div>
 

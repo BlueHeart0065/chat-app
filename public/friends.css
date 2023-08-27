@@ -52,15 +52,15 @@ a{
 
 
 .options svg{
-    width: 1.8vw;
-    height: 1.8vw;
+    width: 1.6vw;
+    height: 1.6vw;
     margin: 1vw 0vw 1vw 2vw;
     transition: all 0.3s;
 
 }
 
 .options p{
-    font-size: 1.3vw;
+    font-size: 1.1vw;
     margin: 1.2vw 0vw 0vw 3vw;
     transition: all 0.3s;
 
@@ -203,10 +203,11 @@ a{
 
 .searchBar input{
     border: none;
-    height: 1vw;
+    height: 3vw;
     font-size: 1vw;
-    margin: 1vw 0vw 1vw 2vw;
+    margin: 0vw 0vw 0vw 0vw;
     width: 45vw;
+    padding-left: 2vw;
 }
 
 .searchBar input:focus{

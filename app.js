@@ -61,7 +61,7 @@ app.post('/' , async(req , res) => {
 
     db.query('SELECT tag FROM users WHERE email = ?', [userEmail] , (err , tagResults) => {
         if(err){
-            console.log('error in fetching username'.rainbow);
+            console.log('error in fetching tag'.rainbow);
         }
         else{
             req.session.userTag = tagResults[0].tag;
@@ -108,6 +108,7 @@ app.post('/' , async(req , res) => {
                     const errors = {
                         invalidpass: true
                     }
+
                     return res.render('login' , {errors , email , password});
         
                 }
@@ -237,6 +238,10 @@ app.post('/home/friends' , (req , res) => {
     const userName = req.session.userName;
     const userTag = req.session.userTag;
 
+    if(search == ''){
+        return
+    }
+
     db.query('SELECT * FROM users WHERE tag = ?' , [search] , async (err , results) => {
         if(err){
             console.log('error in fetching tag'.rainbow , err);
@@ -246,7 +251,14 @@ app.post('/home/friends' , (req , res) => {
                 const friends = {
                     found : true
                 }
-                return res.render('friends' ,{friends , userName, userEmail , userTag});
+                const friendName = results[0].username;
+                return res.render('friends' ,{friends , userName, userEmail , userTag , friendName});
+            }
+            else{
+                const friends ={
+                    notfound : true
+                }
+                return res.render('friends' ,{friends , userName, userEmail , userTag , search});
             }
         }
     })
