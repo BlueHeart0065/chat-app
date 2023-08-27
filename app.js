@@ -223,10 +223,33 @@ app.post('/success' , (req , res) => {
 })
 
 app.get('/home/friends' , (req , res) => {
+
     const userEmail = req.session.userEmail;
     const userName = req.session.userName;
     const userTag = req.session.userTag;
-    res.render('friends' , {userName, userEmail , userTag});
+    res.render('friends' , {userName, userEmail , userTag , friends : {}});
+});
+
+app.post('/home/friends' , (req , res) => {
+    const {search} = req.body;
+    const friends = {};
+    const userEmail = req.session.userEmail;
+    const userName = req.session.userName;
+    const userTag = req.session.userTag;
+
+    db.query('SELECT * FROM users WHERE tag = ?' , [search] , async (err , results) => {
+        if(err){
+            console.log('error in fetching tag'.rainbow , err);
+        }
+        else{
+            if(results.length > 0){
+                const friends = {
+                    found : true
+                }
+                return res.render('friends' ,{friends , userName, userEmail , userTag});
+            }
+        }
+    })
 });
 
 app.listen(port, (req , res) => {
