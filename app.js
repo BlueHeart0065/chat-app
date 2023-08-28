@@ -121,6 +121,24 @@ app.post('/' , async(req , res) => {
 
 });
 
+
+function getTag(){
+    try{
+        const tag = fs.readFileSync('tag.txt' , 'utf-8');
+        console.log('read operation successfull'.rainbow);
+        return parseInt(tag);
+    }
+    catch(error){
+        console.log('error in fetching tag file'.rainbow , error);
+    }
+}
+
+function updateTag(tag){
+    fs.writeFileSync('tag.txt' , tag.toString() , 'utf-8');
+    console.log('write operation successfull'.rainbow);
+
+}
+
 app.get('/signup' , (req , res) =>{
     res.render('signup' , {errors : {} , firstName : '' , lastName : '' , email : '' ,password : '' , confirmPassword: ''});
 });
@@ -225,11 +243,11 @@ app.get('/home' ,  async (req , res) => {
 
 app.get('/signup/success' , (req , res) => {
     res.render('success');
-})
+});
 
 app.post('/success' , (req , res) => {
     res.redirect('/');
-})
+});
 
 app.get('/home/friends' , (req , res) => {
 
@@ -281,19 +299,3 @@ app.listen(port, (req , res) => {
     console.log(`Server started on port ${port}`.rainbow)
 });
 
-function getTag(){
-    try{
-        const tag = fs.readFileSync('tag.txt' , 'utf-8');
-        console.log('read operation successfull'.rainbow);
-        return parseInt(tag);
-    }
-    catch(error){
-        console.log('error in fetching tag file'.rainbow , error);
-    }
-}
-
-function updateTag(tag){
-    fs.writeFileSync('tag.txt' , tag.toString() , 'utf-8');
-    console.log('write operation successfull'.rainbow);
-
-}
