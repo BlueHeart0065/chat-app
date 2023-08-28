@@ -6,6 +6,7 @@ const path = require('path');
 const { log, error } = require('console');
 const bcrypt = require('bcrypt');
 const colors = require('colors');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -124,11 +125,10 @@ app.get('/signup' , (req , res) =>{
     res.render('signup' , {errors : {} , firstName : '' , lastName : '' , email : '' ,password : '' , confirmPassword: ''});
 });
 
-var tag = 1000;
-
 app.post('/signup' , async (req , res) => {
     const {firstName , lastName , email , password , confirmPassword} = req.body;
-    tag += 1;
+    var tag = getTag();
+    console.log(tag.rainbow);
     var uniqueFlag = false;
 
 
@@ -201,6 +201,8 @@ app.post('/signup' , async (req , res) => {
         }
         else{
             console.log('Data inserted'.rainbow);
+            tag += 1;
+            updateTag(tag);
             return res.redirect('/signup/success');
         }
     });
@@ -212,7 +214,13 @@ app.get('/home' ,  async (req , res) => {
     const userEmail = req.session.userEmail;
     const userName = req.session.userName;
     const userTag = req.session.userTag;
-    res.render('home' , {userName, userEmail , userTag});
+
+    if(userEmail == undefined){
+        res.redirect('/');
+    }
+    else{
+        res.render('home' , {userName, userEmail , userTag});
+    }
 });
 
 app.get('/signup/success' , (req , res) => {
@@ -228,7 +236,12 @@ app.get('/home/friends' , (req , res) => {
     const userEmail = req.session.userEmail;
     const userName = req.session.userName;
     const userTag = req.session.userTag;
-    res.render('friends' , {userName, userEmail , userTag , friends : {}});
+    if(userEmail == undefined){
+        res.redirect('/');
+    }
+    else{
+        res.render('friends' , {userName, userEmail , userTag , friends : {}});
+    }
 });
 
 app.post('/home/friends' , (req , res) => {
@@ -267,3 +280,20 @@ app.post('/home/friends' , (req , res) => {
 app.listen(port, (req , res) => {
     console.log(`Server started on port ${port}`.rainbow)
 });
+
+function getTag(){
+    try{
+        const tag = fs.readFileSync('tag.txt' , 'utf-8');
+        console.log('read operation successfull'.rainbow);
+        return parseInt(tag);
+    }
+    catch(error){
+        console.log('error in fetching tag file'.rainbow , error);
+    }
+}
+
+function updateTag(tag){
+    fs.writeFileSync('tag.txt' , tag.toString() , 'utf-8');
+    console.log('write operation successfull'.rainbow);
+
+}

@@ -4,9 +4,10 @@
     display: flex;
 }
 
-body{
+html , body{
     margin: 0vw 0vw 0vw 0vw;
     font-family: 'Outfit';
+    height: 100%;
 }
 
 .sidebar{
@@ -44,8 +45,8 @@ a{
     cursor: pointer;
     border-radius: 15px;
     margin-top: 1vw;
-    width: 18vw;
-    margin-left: 1vw;
+    width: 16vw;
+    margin-left: 2vw;
     transition: all 0.3s;
     height: fit-content;
 }
@@ -54,14 +55,14 @@ a{
 .options svg{
     width: 1.6vw;
     height: 1.6vw;
-    margin: 1vw 0vw 1vw 2vw;
+    margin: 0.8vw 0vw 0.8vw 2vw;
     transition: all 0.3s;
 
 }
 
 .options p{
     font-size: 1.1vw;
-    margin: 1.2vw 0vw 0vw 3vw;
+    margin: 0.9vw 0vw 0vw 3vw;
     transition: all 0.3s;
 
 }
@@ -80,9 +81,11 @@ a{
 }
 
 .profile{
-    position: relative;
-    margin: 9vw 0vw 0vw 0vw;
+    position: absolute;
+    bottom: 0vw;
+    left: 0vw;
     cursor: pointer;
+    width: 20vw;
 }
 
 .profile:hover{
