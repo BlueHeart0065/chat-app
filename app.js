@@ -49,25 +49,6 @@ app.post('/' , async(req , res) => {
     const {email , password} = req.body;
     const errors = {};
     req.session.userEmail = email;
-    const userEmail = req.session.userEmail;
-
-    db.query('SELECT username FROM users WHERE email = ?', [userEmail] , (err , userNameResults) => {
-        if(err){
-            console.log('error in fetching username'.rainbow);
-        }
-        else{
-            req.session.userName = userNameResults[0].username;
-        }
-    });
-
-    db.query('SELECT tag FROM users WHERE email = ?', [userEmail] , (err , tagResults) => {
-        if(err){
-            console.log('error in fetching tag'.rainbow);
-        }
-        else{
-            req.session.userTag = tagResults[0].tag;
-        }
-    });
 
     if(email === ''){
         const errors = {
@@ -146,9 +127,10 @@ app.get('/signup' , (req , res) =>{
 app.post('/signup' , async (req , res) => {
     const {firstName , lastName , email , password , confirmPassword} = req.body;
     var tag = getTag();
-    console.log(tag.rainbow);
-    var uniqueFlag = false;
 
+    req.session.userEmail = email;
+    req.session.userName = firstName+ " "+lastName;
+    req.session.userTag = tag;
 
     const errors = {};
     const hashPassword = await bcrypt.hash(password , 10);
@@ -246,7 +228,7 @@ app.get('/signup/success' , (req , res) => {
 });
 
 app.post('/success' , (req , res) => {
-    res.redirect('/');
+    res.redirect('/home');
 });
 
 app.get('/home/friends' , (req , res) => {
